@@ -12,7 +12,7 @@ services:
       - ./client-gateway/src:/usr/src/app/src
     command: npm run start:dev
     environment:
-      - NATS_SERVERS=nats://nats-server:4222
+      - NATS_SERVERS=${NATS_SERVERS}
       - PORT=3000
 
   products-ms:
@@ -23,9 +23,9 @@ services:
       - ./products-ms/src:/usr/src/app/src
     command: npm run start:dev
     environment:
-      - NATS_SERVERS=nats://nats-server:4222
+      - NATS_SERVERS=${NATS_SERVERS}
       - PORT=3001
-      - DATABASE_URL=file:./prisma/dev.db
+      - DATABASE_URL=${PRODUCTS_DATABASE_URL}
 
   orders-ms:
     depends_on:
@@ -37,9 +37,9 @@ services:
       - ./orders-ms/src:/usr/src/app/src
     command: npm run start:dev
     environment:
-      - NATS_SERVERS=nats://nats-server:4222
+      - NATS_SERVERS=${NATS_SERVERS}
       - PORT=3002
-      - DATABASE_URL=postgresql://postgres:postgres123@orders-db:5432/orders_db
+      - DATABASE_URL=postgresql://${ORDERS_DB_USER}:${ORDERS_DB_PASSWORD}@orders-db:5432/orders_db
 
   orders-db: 
     container_name: orders_database
@@ -50,6 +50,6 @@ services:
     ports: 
       - "5432:5432"
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres123
+      - POSTGRES_USER=${ORDERS_DB_USER}
+      - POSTGRES_PASSWORD=${ORDERS_DB_PASSWORD}
       - POSTGRES_DB=orders_db
