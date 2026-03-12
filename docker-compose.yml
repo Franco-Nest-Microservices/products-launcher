@@ -53,6 +53,7 @@ services:
       - POSTGRES_USER=${ORDERS_DB_USER}
       - POSTGRES_PASSWORD=${ORDERS_DB_PASSWORD}
       - POSTGRES_DB=orders_db
+      
   payments-ms:    
     container_name: payments-ms
     build: ./payments-ms
